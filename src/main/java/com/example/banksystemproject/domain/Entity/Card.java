@@ -6,8 +6,6 @@ import com.example.banksystemproject.domain.enumType.StatusType;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "card")
@@ -31,8 +29,11 @@ public class Card {
     private String PIN;
     @Column(name = "status", nullable = false)
     private StatusType status;
-    @Embedded
-    private Issuer issuer=new Issuer();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_issuer_branch", nullable = false,
+            foreignKey = @ForeignKey(name = "issuer_branch_card_fk"))
+    public IssuerBranch issuerBranch;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_card_holder", nullable = false,
