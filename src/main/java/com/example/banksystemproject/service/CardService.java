@@ -1,4 +1,19 @@
 package com.example.banksystemproject.service;
 
-public class CardService {
+import com.example.banksystemproject.domain.entity.Card;
+import com.example.banksystemproject.domain.entity.Client;
+import com.example.banksystemproject.dto.request.CreateCardDto;
+
+
+public interface CardService {
+
+    Card save(CreateCardDto cardDto);
+
+    void activate(Long id);
+
+    void block(Long id);
+
+    void delete(Long id);
+
+    Client findById(Long id);
 }

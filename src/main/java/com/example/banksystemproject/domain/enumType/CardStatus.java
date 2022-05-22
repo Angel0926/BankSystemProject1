@@ -1,6 +1,7 @@
 package com.example.banksystemproject.domain.enumType;
 
-public enum StatusType {
+public enum CardStatus {
+
     CREATED,
     ACTIVE,
     BLOCKED

@@ -1,7 +1,9 @@
 package com.example.banksystemproject.repository;
 
-import com.example.banksystemproject.domain.Entity.Account;
+import com.example.banksystemproject.domain.entity.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface AccountRepo extends JpaRepository<Account,Long> {
 }
