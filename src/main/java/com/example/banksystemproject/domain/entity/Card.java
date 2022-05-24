@@ -2,6 +2,7 @@ package com.example.banksystemproject.domain.entity;
 
 import com.example.banksystemproject.domain.enumType.CardStatus;
 import com.example.banksystemproject.domain.enumType.CardType;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -16,7 +17,7 @@ public class Card {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false,length = 16)
+    @Column(nullable = false, length = 16)
     private String cardNumber;
 
     @CreationTimestamp
@@ -27,10 +28,10 @@ public class Card {
     @Column(nullable = false)
     private LocalDate expirationDate;
 
-    @Column(nullable = false,length = 3)
+    @Column(nullable = false, length = 3)
     private String cvc;
 
-    @Column(nullable = false,length = 4)
+    @Column(nullable = false, length = 4)
     private String pin;
 
     @Enumerated(EnumType.STRING)
@@ -41,8 +42,8 @@ public class Card {
     @ColumnDefault("'CREATED'")
     @Column(nullable = false)
     private CardStatus status;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Account account;
 
 

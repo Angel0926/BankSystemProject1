@@ -2,14 +2,14 @@ package com.example.banksystemproject.service;
 
 import com.example.banksystemproject.domain.entity.Account;
 import com.example.banksystemproject.domain.entity.Client;
-import com.example.banksystemproject.dto.request.CreateAccountDto;
+import com.example.banksystemproject.dto.AccountDto;
 
 
 public interface AccountService {
 
-    Account save(CreateAccountDto accountDto);
+    Account save(Long clientId) ;
 
-    Account update(Long id, CreateAccountDto accountDto);
+    Account update(Long id, AccountDto accountDto);
 
     void delete(Long id);
 

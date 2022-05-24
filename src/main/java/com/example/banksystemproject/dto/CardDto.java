@@ -1,28 +1,32 @@
-package com.example.banksystemproject.dto.request;
+package com.example.banksystemproject.dto;
 
 import com.example.banksystemproject.domain.enumType.CardStatus;
 import com.example.banksystemproject.domain.enumType.CardType;
-import com.example.banksystemproject.dto.AccountDto;
 
-public class CreateCardDto {
-
-    private String pin;
+public class CardDto {
 
     private CardType cardType;
 
     private CardStatus status;
+    private String cvc;
+    private String pin;
 
-    private AccountDto accountDto;
-
-
-    public CreateCardDto() {
+    public CardDto() {
     }
 
-    public CreateCardDto(String pin, CardType cardType, CardStatus status, AccountDto accountDto) {
-        this.pin = pin;
+    public CardDto(CardType cardType, CardStatus status, String cvc, String pin) {
         this.cardType = cardType;
         this.status = status;
-        this.accountDto = accountDto;
+        this.cvc = cvc;
+        this.pin = pin;
+    }
+
+    public String getCvc() {
+        return cvc;
+    }
+
+    public void setCvc(String cvc) {
+        this.cvc = cvc;
     }
 
     public String getPin() {
@@ -48,12 +52,9 @@ public class CreateCardDto {
     public void setStatus(CardStatus status) {
         this.status = status;
     }
-
-    public AccountDto getCreateAccountDto() {
-        return accountDto;
-    }
-
-    public void setCreateAccountDto(AccountDto accountDto) {
-        this.accountDto = accountDto;
-    }
 }
+
+
+
+
+

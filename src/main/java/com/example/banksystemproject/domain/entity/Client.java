@@ -1,6 +1,8 @@
 package com.example.banksystemproject.domain.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Set;
@@ -20,10 +22,10 @@ public class Client {
 
     @Column(nullable = false)
     private LocalDate dateOfBirth;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
-
-    @OneToMany(mappedBy = "client",cascade = CascadeType.PERSIST)
+    @JsonManagedReference
+    @OneToMany(mappedBy = "client", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private Set<Account> accounts;
 
     public Client(Long id, String firstName, String lastName, LocalDate dateOfBirth, Address address, Set<Account> accountList) {
@@ -35,12 +37,11 @@ public class Client {
         this.accounts = accountList;
     }
 
-    public Client(String firstName, String lastName, LocalDate dateOfBirth, Address address, Set<Account> accountList) {
+    public Client(String firstName, String lastName, LocalDate dateOfBirth, Address address) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
         this.address = address;
-        this.accounts = accountList;
     }
 
     public Client() {

@@ -1,7 +1,8 @@
 package com.example.banksystemproject.domain.entity;
 
 import com.example.banksystemproject.domain.enumType.BalanceType;
-import org.hibernate.annotations.ColumnDefault;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -13,23 +14,23 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true,length = 12)
+    @Column(nullable = false)
     private String IBAN;
 
-    @Column(nullable = false)
-    private Double balance;
+    @Column
+    private Double balance=0.00;
 
     @Enumerated(value = EnumType.STRING)
-    @ColumnDefault("'DEBIT'")
     private BalanceType balanceType;
 
     @Embedded
-    public IssuerBranch issuerBranch;
-
-    @OneToMany(mappedBy = "account")
+    private IssuerBranch issuerBranch;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "account",cascade = CascadeType.PERSIST)
     private Set<Card> cards;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    @JsonBackReference
     private Client client;
 
 

@@ -1,14 +1,15 @@
 package com.example.banksystemproject.util;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Random;
 
+@Component
 public class CreditCardNumberGenerator {
 
-        private Random random = new Random(System.currentTimeMillis());
-
+        private final Random random = new Random(System.currentTimeMillis());
 
         public String generate(String bin, int length) {
-
 
             int randomNumberLength = length - (bin.length() + 1);
 
@@ -18,10 +19,8 @@ public class CreditCardNumberGenerator {
                 builder.append(digit);
             }
 
-
             int checkDigit = this.getCheckDigit(builder.toString());
             builder.append(checkDigit);
-            System.out.println(builder.toString());
             return builder.toString();
         }
 
@@ -45,8 +44,4 @@ public class CreditCardNumberGenerator {
             return ((mod == 0) ? 0 : 10 - mod);
         }
 
-    public static void main(String[] args) {
-        CreditCardNumberGenerator creditCardNumberGenerator=new CreditCardNumberGenerator();
-         creditCardNumberGenerator.generate("488962000041",16);
-    }
 }

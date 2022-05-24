@@ -1,18 +1,20 @@
 package com.example.banksystemproject.util;
 
 import net.bytebuddy.utility.RandomString;
+import org.springframework.stereotype.Component;
 
 import java.util.Random;
 
+@Component
 public class IbanGenerator {
 
-    public String generate(){
+    public String generate() {
         StringBuilder start = new StringBuilder();
         Random value = new Random();
 
         RandomString string = new RandomString();
-        String r1 = string.nextString().substring(0,1).toUpperCase();
-        String r2 = string.nextString().substring(0,1).toUpperCase();
+        String r1 = string.nextString().substring(0, 1).toUpperCase();
+        String r2 = string.nextString().substring(0, 1).toUpperCase();
         start.append(r1).append(r2).append(" ");
 
         int count = 0;
