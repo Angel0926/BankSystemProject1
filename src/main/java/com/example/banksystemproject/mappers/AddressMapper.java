@@ -1,26 +1,26 @@
 package com.example.banksystemproject.mappers;
 
 import com.example.banksystemproject.domain.entity.Address;
-import com.example.banksystemproject.dto.AddressDto;
+import com.example.banksystemproject.dto.request.AddressRequestDto;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AddressMapper {
-    public Address toAddress(AddressDto addressDto){
+    public Address toAddress(AddressRequestDto addressRequestDto){
         Address address=new Address();
 
-        address.setStreet(addressDto.getStreet());
-        address.setCity(addressDto.getCity());
-        address.setCountry(addressDto.getCountry());
+        address.setStreet(addressRequestDto.getStreet());
+        address.setCity(addressRequestDto.getCity());
+        address.setCountry(addressRequestDto.getCountry());
         return address;
     }
 
-    public AddressDto toAddressDto(Address address){
-        AddressDto addressDto=new AddressDto();
+    public AddressRequestDto toAddressDto(Address address){
+        AddressRequestDto addressRequestDto =new AddressRequestDto();
 
-        addressDto.setStreet(address.getStreet());
-        addressDto.setCity(address.getCity());
-        addressDto.setCountry(address.getCountry());
-        return addressDto;
+        addressRequestDto.setStreet(address.getStreet());
+        addressRequestDto.setCity(address.getCity());
+        addressRequestDto.setCountry(address.getCountry());
+        return addressRequestDto;
     }
 }

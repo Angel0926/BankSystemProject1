@@ -1,21 +1,22 @@
 package com.example.banksystemproject.service;
 
-import com.example.banksystemproject.domain.entity.Client;
-import com.example.banksystemproject.dto.request.CreateClientAddressDto;
-import com.example.banksystemproject.dto.request.CreateClientDto;
+import com.example.banksystemproject.dto.request.ClientAddressRequestDto;
+import com.example.banksystemproject.dto.request.ClientRequestDto;
+import com.example.banksystemproject.dto.responce.ClientAddressResponseDto;
+import com.example.banksystemproject.dto.responce.ClientResponseDto;
 
 import java.nio.file.attribute.UserPrincipalNotFoundException;
 
 
 public interface ClientService {
 
-    Client save(CreateClientAddressDto createClientAddressDto);
+    ClientAddressResponseDto save(ClientAddressRequestDto clientAddressRequestDto);
 
-    Client update(Long id, CreateClientDto clientDto) throws UserPrincipalNotFoundException;
+    ClientResponseDto update(Long id, ClientRequestDto clientDto) throws UserPrincipalNotFoundException;
 
     void delete(Long id) throws UserPrincipalNotFoundException;
 
-    Client findById(Long id) throws UserPrincipalNotFoundException;
+    ClientAddressResponseDto findById(Long id) throws UserPrincipalNotFoundException;
 
 
 

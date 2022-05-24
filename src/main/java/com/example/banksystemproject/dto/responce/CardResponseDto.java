@@ -1,9 +1,9 @@
-package com.example.banksystemproject.dto;
+package com.example.banksystemproject.dto.responce;
 
 import com.example.banksystemproject.domain.enumType.CardStatus;
 import com.example.banksystemproject.domain.enumType.CardType;
 
-public class CardDto {
+public class CardResponseDto {
 
     private CardType cardType;
 
@@ -11,10 +11,10 @@ public class CardDto {
     private String cvc;
     private String pin;
 
-    public CardDto() {
+    public CardResponseDto() {
     }
 
-    public CardDto(CardType cardType, CardStatus status, String cvc, String pin) {
+    public CardResponseDto(CardType cardType, CardStatus status, String cvc, String pin) {
         this.cardType = cardType;
         this.status = status;
         this.cvc = cvc;

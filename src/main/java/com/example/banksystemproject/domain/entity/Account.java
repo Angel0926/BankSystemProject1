@@ -3,10 +3,12 @@ package com.example.banksystemproject.domain.entity;
 import com.example.banksystemproject.domain.enumType.BalanceType;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.util.Set;
 
+@DynamicInsert
 @Entity
 public class Account {
 
@@ -18,18 +20,18 @@ public class Account {
     private String IBAN;
 
     @Column
-    private Double balance=0.00;
+    private Double balance = 0.00;
 
     @Enumerated(value = EnumType.STRING)
-    private BalanceType balanceType;
+    private BalanceType balanceType = BalanceType.CREDIT;
 
     @Embedded
     private IssuerBranch issuerBranch;
     @JsonManagedReference
-    @OneToMany(mappedBy = "account",cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.PERSIST)
     private Set<Card> cards;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JsonBackReference
     private Client client;
 

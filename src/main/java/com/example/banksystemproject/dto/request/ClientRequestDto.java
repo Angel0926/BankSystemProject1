@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
 
-public class CreateClientDto {
+public class ClientRequestDto {
 
     private String firstName;
     private String lastName;
@@ -12,8 +12,10 @@ public class CreateClientDto {
     private LocalDate dateOfBirth;
 
 
+    public ClientRequestDto() {
+    }
 
-    public CreateClientDto(String firstName, String lastName, LocalDate dateOfBirth) {
+    public ClientRequestDto(String firstName, String lastName, LocalDate dateOfBirth) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;

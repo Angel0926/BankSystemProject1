@@ -5,11 +5,12 @@ import com.example.banksystemproject.domain.enumType.CardType;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-
+@DynamicInsert
 @Entity
 public class Card {
 
@@ -36,12 +37,12 @@ public class Card {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private CardType cardType;
+    private CardType cardType=CardType.VISA;
 
     @Enumerated(EnumType.STRING)
     @ColumnDefault("'CREATED'")
     @Column(nullable = false)
-    private CardStatus status;
+    private CardStatus status=CardStatus.CREATED;
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Account account;

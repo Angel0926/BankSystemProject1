@@ -1,7 +1,7 @@
 package com.example.banksystemproject.controller;
 
 import com.example.banksystemproject.domain.entity.Card;
-import com.example.banksystemproject.dto.CardDto;
+import com.example.banksystemproject.dto.request.CardRequestDto;
 import com.example.banksystemproject.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,9 +22,9 @@ public class CardController {
 
 
     @PostMapping("/{id}")
-    public ResponseEntity<Card> save(@RequestBody CardDto cardDto,
+    public ResponseEntity<Card> save(@RequestBody CardRequestDto cardRequestDto,
                                      @PathVariable("id") Long accountId) {
-        Card card = cardService.save(cardDto, accountId);
+        Card card = cardService.save(cardRequestDto, accountId);
         if (card == null) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }

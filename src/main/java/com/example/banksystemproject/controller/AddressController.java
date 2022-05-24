@@ -1,8 +1,8 @@
 package com.example.banksystemproject.controller;
 
-import com.example.banksystemproject.domain.entity.Address;
-import com.example.banksystemproject.domain.entity.Client;
-import com.example.banksystemproject.dto.AddressDto;
+import com.example.banksystemproject.dto.request.AddressRequestDto;
+import com.example.banksystemproject.dto.responce.AddressResponseDto;
+import com.example.banksystemproject.dto.responce.ClientAddressResponseDto;
 import com.example.banksystemproject.service.AddressService;
 import com.example.banksystemproject.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,23 +27,23 @@ public class AddressController {
     }
 
     @PostMapping
-    public ResponseEntity<Address> save(@RequestBody AddressDto addressDto,
-                                        @PathVariable("id") Long id) throws UserPrincipalNotFoundException {
-        Client client = clientService.findById(id);
-        Address address = addressService.save(addressDto);
-        client.setAddress(address);
-        if (address == null) {
+    public ResponseEntity<AddressResponseDto> save(@RequestBody AddressRequestDto addressRequestDto,
+                                                   @PathVariable("id") Long id) throws UserPrincipalNotFoundException {
+        ClientAddressResponseDto clientAddressResponseDto = clientService.findById(id);
+        AddressResponseDto addressResponseDto = addressService.save(addressRequestDto);
+        clientAddressResponseDto.setAddress(addressResponseDto);
+        if (addressResponseDto == null) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
-        return ResponseEntity.ok(address);
+        return ResponseEntity.ok(addressResponseDto);
     }
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<Address> update(@RequestBody AddressDto addressDto,
+    public ResponseEntity<AddressResponseDto> update(@RequestBody AddressRequestDto addressRequestDto,
                                           @PathVariable("id") Long id) {
         try {
-            return ResponseEntity.ok(addressService.update(id, addressDto));
+            return ResponseEntity.ok(addressService.update(id, addressRequestDto));
         } catch (UserPrincipalNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }

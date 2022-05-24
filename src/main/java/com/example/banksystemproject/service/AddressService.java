@@ -1,7 +1,7 @@
 package com.example.banksystemproject.service;
 
-import com.example.banksystemproject.domain.entity.Address;
-import com.example.banksystemproject.dto.AddressDto;
+import com.example.banksystemproject.dto.request.AddressRequestDto;
+import com.example.banksystemproject.dto.responce.AddressResponseDto;
 
 import java.nio.file.attribute.UserPrincipalNotFoundException;
 
@@ -9,9 +9,9 @@ import java.nio.file.attribute.UserPrincipalNotFoundException;
 public interface AddressService {
 
 
-    Address save(AddressDto addressDto);
+    AddressResponseDto save(AddressRequestDto addressRequestDto);
 
-    Address update(Long addressId, AddressDto addressDto) throws UserPrincipalNotFoundException;
+    AddressResponseDto update(Long addressId, AddressRequestDto addressRequestDto) throws UserPrincipalNotFoundException;
 
     void delete(Long id) throws UserPrincipalNotFoundException;
 

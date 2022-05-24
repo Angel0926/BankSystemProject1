@@ -1,11 +1,14 @@
 package com.example.banksystemproject.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.Embeddable;
+import java.io.Serializable;
 
 @Embeddable
-public class IssuerBranch {
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+public class IssuerBranch implements Serializable {
 
     @ColumnDefault("'12650'")
     private String bankCode;

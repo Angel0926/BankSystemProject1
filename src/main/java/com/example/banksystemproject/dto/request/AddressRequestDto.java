@@ -1,15 +1,15 @@
-package com.example.banksystemproject.dto;
+package com.example.banksystemproject.dto.request;
 
-public class AddressDto {
+public class AddressRequestDto {
 
     private String country;
     private String city;
     private String street;
 
-    public AddressDto() {
+    public AddressRequestDto() {
     }
 
-    public AddressDto(String country, String city, String street) {
+    public AddressRequestDto(String country, String city, String street) {
         this.country = country;
         this.city = city;
         this.street = street;

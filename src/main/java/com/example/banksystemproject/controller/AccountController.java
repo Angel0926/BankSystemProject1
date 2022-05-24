@@ -1,15 +1,12 @@
 package com.example.banksystemproject.controller;
 
-import com.example.banksystemproject.domain.entity.Account;
+import com.example.banksystemproject.dto.responce.AccountResponseDto;
 import com.example.banksystemproject.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/account")
@@ -24,15 +21,27 @@ public class AccountController {
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<Account> save(@PathVariable("id") Long clientId) {
-        Account account = accountService.save(clientId);
-        if (account == null) {
+    public ResponseEntity<AccountResponseDto> save(@PathVariable("id") Long clientId) {
+        AccountResponseDto accountResponseDto = accountService.save(clientId);
+        if (accountResponseDto == null) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
-        return ResponseEntity.ok(account);
+        return ResponseEntity.ok(accountResponseDto);
     }
 
+    @PostMapping("/transfer")
 
+public ResponseEntity<?> transfer(@RequestParam double amount,
+                                  @RequestParam(required = false)  Long fromAccountId ,
+                                  @RequestParam Long toAccountId){
+        if(fromAccountId == null){
+            accountService.transferToAccount(amount,toAccountId);
+            return ResponseEntity.ok().build();
+
+        }
+        accountService.transferToCard(amount,fromAccountId,toAccountId);
+        return ResponseEntity.ok().build();
+    }
 
 
 

@@ -1,19 +1,19 @@
 package com.example.banksystemproject.responses;
 
-import com.example.banksystemproject.dto.AddressDto;
+import com.example.banksystemproject.dto.request.AddressRequestDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 public class AddressCreationResponse {
-    private AddressDto addressDto;
-    public AddressCreationResponse(AddressDto addressDto) {
-        this.addressDto=addressDto;
+    private AddressRequestDto addressRequestDto;
+    public AddressCreationResponse(AddressRequestDto addressRequestDto) {
+        this.addressRequestDto = addressRequestDto;
     }
 
     public ResponseEntity<?> onFailure() {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("There is an Address");
     }
-    public ResponseEntity<AddressDto> onSuccess(){
-        return  ResponseEntity.ok().body(addressDto);
+    public ResponseEntity<AddressRequestDto> onSuccess(){
+        return  ResponseEntity.ok().body(addressRequestDto);
     }
 }

@@ -1,8 +1,10 @@
 package com.example.banksystemproject.controller;
 
-import com.example.banksystemproject.domain.entity.Client;
-import com.example.banksystemproject.dto.request.CreateClientAddressDto;
-import com.example.banksystemproject.dto.request.CreateClientDto;
+import com.example.banksystemproject.ExceptionHandler.ApiRequestException;
+import com.example.banksystemproject.dto.request.ClientAddressRequestDto;
+import com.example.banksystemproject.dto.request.ClientRequestDto;
+import com.example.banksystemproject.dto.responce.ClientAddressResponseDto;
+import com.example.banksystemproject.dto.responce.ClientResponseDto;
 import com.example.banksystemproject.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,23 +25,26 @@ public class ClientController {
     }
 
     @PostMapping
-    public ResponseEntity<Client> save(@RequestBody CreateClientAddressDto createClientAddressDto) {
+    public ResponseEntity<ClientAddressResponseDto> save(@RequestBody ClientAddressRequestDto clientAddressRequestDto) {
 
-        Client client = clientService.save(createClientAddressDto);
-        if (client == null) {
+        ClientAddressResponseDto clientAddressResponseDto = clientService.save(clientAddressRequestDto);
+        if (clientAddressResponseDto == null) {
+
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
-        return ResponseEntity.ok(client);
+        return ResponseEntity.ok(clientAddressResponseDto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Client> update(@RequestBody CreateClientDto createClientDto,
-                                         @PathVariable("id") Long id) {
+    public ResponseEntity<ClientResponseDto> update(@RequestBody ClientRequestDto clientRequestDto,
+                                                    @PathVariable("id") Long id) {
         try {
-            return ResponseEntity.ok(clientService.update(id, createClientDto));
+            return ResponseEntity.ok(clientService.update(id, clientRequestDto));
         } catch (UserPrincipalNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            throw new ApiRequestException("Address with id %s is not found");
         }
+
+
     }
 
     @DeleteMapping("/{id}")
@@ -50,20 +55,20 @@ public class ClientController {
             return ResponseEntity.ok().build();
 
         } catch (UserPrincipalNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            throw new ApiRequestException("Address with id %s is not found");
         }
     }
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<Client> findById(@PathVariable("id") Long id) {
-
+    public ResponseEntity<ClientAddressResponseDto> findById(@PathVariable("id") Long id) {
         try {
             return ResponseEntity.ok(clientService.findById(id));
-
         } catch (UserPrincipalNotFoundException e) {
-            System.out.println(e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            String message = e.getName();
+            throw new ApiRequestException(message);
         }
     }
-}
+
+    }
+

@@ -1,7 +1,8 @@
 package com.example.banksystemproject.service.impl;
 
 import com.example.banksystemproject.domain.entity.Address;
-import com.example.banksystemproject.dto.AddressDto;
+import com.example.banksystemproject.dto.request.AddressRequestDto;
+import com.example.banksystemproject.dto.responce.AddressResponseDto;
 import com.example.banksystemproject.repository.AddressRepo;
 import com.example.banksystemproject.service.AddressService;
 import org.modelmapper.ModelMapper;
@@ -23,20 +24,21 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public Address save(AddressDto addressDto) {
+    public AddressResponseDto save(AddressRequestDto addressRequestDto) {
 
-        return addressRepo.save(modelMapper.map(addressDto,Address.class));
+        Address save = addressRepo.save(modelMapper.map(addressRequestDto, Address.class));
+        return modelMapper.map(save,AddressResponseDto.class);
     }
 
     @Override
-    public Address update(Long addressId, AddressDto addressDto) throws UserPrincipalNotFoundException {
+    public AddressResponseDto update(Long addressId, AddressRequestDto addressRequestDto) throws UserPrincipalNotFoundException {
         Address address = addressRepo.findById(addressId).orElseThrow(() -> new UserPrincipalNotFoundException(String.format("Address with id %s is not found", addressId)));
 
-        address.setCountry(addressDto.getCountry());
-        address.setCity(addressDto.getCity());
-        address.setStreet(addressDto.getStreet());
-
-        return addressRepo.save(address);
+        address.setCountry(addressRequestDto.getCountry());
+        address.setCity(addressRequestDto.getCity());
+        address.setStreet(addressRequestDto.getStreet());
+        Address save = addressRepo.save(address);
+        return modelMapper.map(save,AddressResponseDto.class);
     }
     @Override
     public void delete(Long id) throws UserPrincipalNotFoundException {

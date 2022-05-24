@@ -1,19 +1,19 @@
-package com.example.banksystemproject.dto;
+package com.example.banksystemproject.dto.request;
 
 import com.example.banksystemproject.domain.entity.IssuerBranch;
 import com.example.banksystemproject.domain.enumType.BalanceType;
 
-public class AccountDto {
+public class AccountRequestDto {
 
 
     private IssuerBranch issuerBranch;
 
     private BalanceType balanceType;
 
-    public AccountDto() {
+    public AccountRequestDto() {
     }
 
-    public AccountDto(IssuerBranch issuerBranch, BalanceType balanceType) {
+    public AccountRequestDto(IssuerBranch issuerBranch, BalanceType balanceType) {
         this.issuerBranch = issuerBranch;
         this.balanceType = balanceType;
     }
