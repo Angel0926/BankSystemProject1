@@ -1,5 +1,7 @@
 package com.example.banksystemproject.controller;
 
+import com.example.banksystemproject.ExceptionHandler.ApiRequestException;
+import com.example.banksystemproject.dto.request.AccountRequestDto;
 import com.example.banksystemproject.dto.responce.AccountResponseDto;
 import com.example.banksystemproject.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 
 @RestController
 @RequestMapping("/account")
@@ -44,6 +48,38 @@ public ResponseEntity<?> transfer(@RequestParam double amount,
     }
 
 
+    @PutMapping("/{id}")
+    public ResponseEntity<AccountResponseDto> update(@RequestBody AccountRequestDto accountRequestDto,
+                                                     @PathVariable("id") Long id) {
+        try {
+            return ResponseEntity.ok(accountService.update(id, accountRequestDto));
+        } catch (UserPrincipalNotFoundException e) {
+            String message = e.getName();
+            throw new ApiRequestException(message);}}
 
 
-}
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
+
+        try {
+            accountService.delete(id);
+            return ResponseEntity.ok().build();
+
+        } catch (UserPrincipalNotFoundException e) {
+            String message = e.getName();
+            throw new ApiRequestException(message);
+        }
+    }
+
+
+    }
+
+
+
+
+
+
+
+
+

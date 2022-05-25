@@ -27,7 +27,7 @@ public class AddressServiceImpl implements AddressService {
     public AddressResponseDto save(AddressRequestDto addressRequestDto) {
 
         Address save = addressRepo.save(modelMapper.map(addressRequestDto, Address.class));
-        return modelMapper.map(save,AddressResponseDto.class);
+        return modelMapper.map(save, AddressResponseDto.class);
     }
 
     @Override
@@ -38,11 +38,12 @@ public class AddressServiceImpl implements AddressService {
         address.setCity(addressRequestDto.getCity());
         address.setStreet(addressRequestDto.getStreet());
         Address save = addressRepo.save(address);
-        return modelMapper.map(save,AddressResponseDto.class);
+        return modelMapper.map(save, AddressResponseDto.class);
     }
+
     @Override
     public void delete(Long id) throws UserPrincipalNotFoundException {
-        Address  address= addressRepo.findById(id).orElseThrow(()
+        Address address = addressRepo.findById(id).orElseThrow(()
                 -> new UserPrincipalNotFoundException(String.format("Address with id %s is not found", id)));
 
         addressRepo.delete(address);

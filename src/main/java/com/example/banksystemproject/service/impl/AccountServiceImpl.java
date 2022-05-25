@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.file.attribute.UserPrincipalNotFoundException;
+
 @Service("account_service")
 public class AccountServiceImpl implements AccountService {
 
@@ -44,21 +46,29 @@ public class AccountServiceImpl implements AccountService {
 
 
     @Override
-    public Account update(Long id, AccountRequestDto accountRequestDto) {
-        return null;
+    public AccountResponseDto update(Long id, AccountRequestDto accountRequestDto) throws UserPrincipalNotFoundException {
+        Account account = accountRepo.findById(id).orElseThrow(() -> new UserPrincipalNotFoundException(String.format("Account with id %s is not found", id)));
+
+        account.setBalanceType(accountRequestDto.getBalanceType());
+        account.setIssuerBranch(accountRequestDto.getIssuerBranch());
+        Account save = accountRepo.save(account);
+        return modelMapper.map(save, AccountResponseDto.class);
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id) throws UserPrincipalNotFoundException {
+        Account account = accountRepo.findById(id).orElseThrow(()
+                -> new UserPrincipalNotFoundException(String.format("Account with id %s is not found", id)));
 
-
+        accountRepo.delete(account);
     }
+
 
     @Override
     @Transactional
     public void transferToCard(double amount, Long fromAccountId, Long toAccountId) {
-            accountRepo.transferFrom(amount, fromAccountId);
-            accountRepo.transferTo(amount, toAccountId);
+        accountRepo.transferFrom(amount, fromAccountId);
+        accountRepo.transferTo(amount, toAccountId);
 
     }
 

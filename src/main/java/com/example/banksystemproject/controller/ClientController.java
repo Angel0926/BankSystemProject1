@@ -41,10 +41,8 @@ public class ClientController {
         try {
             return ResponseEntity.ok(clientService.update(id, clientRequestDto));
         } catch (UserPrincipalNotFoundException e) {
-            throw new ApiRequestException("Address with id %s is not found");
-        }
-
-
+            String message = e.getName();
+            throw new ApiRequestException(message);}
     }
 
     @DeleteMapping("/{id}")
@@ -55,7 +53,8 @@ public class ClientController {
             return ResponseEntity.ok().build();
 
         } catch (UserPrincipalNotFoundException e) {
-            throw new ApiRequestException("Address with id %s is not found");
+            String message = e.getName();
+            throw new ApiRequestException(message);
         }
     }
 
