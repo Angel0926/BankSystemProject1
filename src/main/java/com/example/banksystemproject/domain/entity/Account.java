@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import java.util.Optional;
 import java.util.Set;
 
 @DynamicInsert
@@ -28,10 +29,11 @@ public class Account {
     @Embedded
     private IssuerBranch issuerBranch;
     @JsonManagedReference
-    @OneToMany(mappedBy = "account", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private Set<Card> cards;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
     private Client client;
 

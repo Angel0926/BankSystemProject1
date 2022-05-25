@@ -1,8 +1,10 @@
 package com.example.banksystemproject.controller;
 
 import com.example.banksystemproject.ExceptionHandler.ApiRequestException;
+import com.example.banksystemproject.domain.entity.Client;
 import com.example.banksystemproject.dto.request.AccountRequestDto;
 import com.example.banksystemproject.dto.responce.AccountResponseDto;
+import com.example.banksystemproject.repository.ClientRepo;
 import com.example.banksystemproject.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,14 +21,23 @@ public class AccountController {
 
     private final AccountService accountService;
 
+
     @Autowired
     public AccountController(@Qualifier(value = "account_service")AccountService accountService) {
         this.accountService = accountService;
+
     }
 
     @PostMapping("/{id}")
     public ResponseEntity<AccountResponseDto> save(@PathVariable("id") Long clientId) {
-        AccountResponseDto accountResponseDto = accountService.save(clientId);
+
+        AccountResponseDto accountResponseDto = null;
+        try {
+            accountResponseDto = accountService.save(clientId);
+        } catch (UserPrincipalNotFoundException e) {
+            String message = e.getName();
+            throw new ApiRequestException(message);
+        }
         if (accountResponseDto == null) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }

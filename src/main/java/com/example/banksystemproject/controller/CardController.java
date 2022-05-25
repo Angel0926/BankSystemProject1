@@ -1,7 +1,9 @@
 package com.example.banksystemproject.controller;
 
 import com.example.banksystemproject.ExceptionHandler.ApiRequestException;
+import com.example.banksystemproject.dto.request.AccountRequestDto;
 import com.example.banksystemproject.dto.request.CardRequestDto;
+import com.example.banksystemproject.dto.responce.AccountResponseDto;
 import com.example.banksystemproject.dto.responce.CardResponseDto;
 import com.example.banksystemproject.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,13 @@ public class CardController {
     @PostMapping("/{id}")
     public ResponseEntity<CardResponseDto> save(@RequestBody CardRequestDto cardRequestDto,
                                      @PathVariable("id") Long accountId) {
-        CardResponseDto cardResponseDto = cardService.save(cardRequestDto, accountId);
+        CardResponseDto cardResponseDto = null;
+        try {
+            cardResponseDto = cardService.save(cardRequestDto, accountId);
+        } catch (UserPrincipalNotFoundException e) {
+            String message = e.getName();
+            throw new ApiRequestException(message);
+        }
         if (cardResponseDto == null) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
@@ -58,6 +66,22 @@ public class CardController {
         } catch (UserPrincipalNotFoundException e) {
             String message = e.getName();
             throw new ApiRequestException(message);}
+    }
+
+    @PostMapping("/activate")
+
+    public ResponseEntity<?> activateCard(@RequestParam Long cardId){
+
+            cardService.activate(cardId);
+            return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/blocked")
+
+    public ResponseEntity<?> blockedCard(@RequestParam Long cardId){
+
+        cardService.block(cardId);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}")

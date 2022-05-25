@@ -10,10 +10,12 @@ import com.example.banksystemproject.service.AccountService;
 import com.example.banksystemproject.util.IbanGenerator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.file.attribute.UserPrincipalNotFoundException;
+import java.util.Optional;
 
 @Service("account_service")
 public class AccountServiceImpl implements AccountService {
@@ -34,11 +36,12 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountResponseDto save(Long clientId) {
-        Client client = clientRepo.getById(clientId);
+    public AccountResponseDto save(Long clientId) throws UserPrincipalNotFoundException {
+        Optional<Client> client = Optional.ofNullable(clientRepo.findById(clientId).orElseThrow(() -> new UserPrincipalNotFoundException(String.format("Client with id %s is not found", clientId))));
         Account account = new Account();
-        account.setClient(client);
         account.setIBAN(ibanGenerator.generate());
+        Client client1=modelMapper.map(client,Client.class);
+        account.setClient(client1);
         accountRepo.save(account);
         AccountResponseDto accountResponseDto = modelMapper.map(account, AccountResponseDto.class);
         return accountResponseDto;
@@ -48,7 +51,6 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountResponseDto update(Long id, AccountRequestDto accountRequestDto) throws UserPrincipalNotFoundException {
         Account account = accountRepo.findById(id).orElseThrow(() -> new UserPrincipalNotFoundException(String.format("Account with id %s is not found", id)));
-
         account.setBalanceType(accountRequestDto.getBalanceType());
         account.setIssuerBranch(accountRequestDto.getIssuerBranch());
         Account save = accountRepo.save(account);

@@ -1,5 +1,6 @@
 package com.example.banksystemproject.domain.entity;
 
+
 import javax.persistence.*;
 
 @Entity
@@ -7,7 +8,7 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column (nullable = false,length = 30)
+    @Column(nullable = false,length = 30)
     private String street;
     @Column(nullable = false,length = 30)
     private  String city;

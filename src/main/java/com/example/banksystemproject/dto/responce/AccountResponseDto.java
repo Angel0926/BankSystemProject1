@@ -1,5 +1,6 @@
 package com.example.banksystemproject.dto.responce;
 
+import com.example.banksystemproject.domain.entity.Client;
 import com.example.banksystemproject.domain.entity.IssuerBranch;
 import com.example.banksystemproject.domain.enumType.BalanceType;
 
@@ -16,8 +17,21 @@ public class AccountResponseDto {
 
     private IssuerBranch issuerBranch;
 
-
+    private Client client;
     public AccountResponseDto() {
+    }
+
+    public AccountResponseDto(Long id, String IBAN,
+                              Double balance,
+                              BalanceType balanceType,
+                              IssuerBranch issuerBranch,
+                              Client client) {
+        this.id = id;
+        this.IBAN = IBAN;
+        this.balance = balance;
+        this.balanceType = balanceType;
+        this.issuerBranch = issuerBranch;
+        this.client = client;
     }
 
     public AccountResponseDto(Long id, String IBAN,
@@ -29,6 +43,14 @@ public class AccountResponseDto {
         this.balance = balance;
         this.balanceType = balanceType;
         this.issuerBranch = issuerBranch;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public Long getId() {

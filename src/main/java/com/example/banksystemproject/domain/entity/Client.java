@@ -28,13 +28,13 @@ public class Client {
     @OneToMany(mappedBy = "client", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private Set<Account> accounts;
 
-    public Client(Long id, String firstName, String lastName, LocalDate dateOfBirth, Address address, Set<Account> accountList) {
+    public Client(Long id, String firstName, String lastName, LocalDate dateOfBirth, Address address) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
         this.address = address;
-        this.accounts = accountList;
+
     }
 
     public Client(String firstName, String lastName, LocalDate dateOfBirth, Address address) {
@@ -45,6 +45,14 @@ public class Client {
     }
 
     public Client() {
+    }
+
+    public Set<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(Set<Account> accounts) {
+        this.accounts = accounts;
     }
 
     public Long getId() {
@@ -87,11 +95,5 @@ public class Client {
         this.address = address;
     }
 
-    public Set<Account> getAccountList() {
-        return accounts;
-    }
 
-    public void setAccountList(Set<Account> accountList) {
-        this.accounts = accountList;
-    }
 }

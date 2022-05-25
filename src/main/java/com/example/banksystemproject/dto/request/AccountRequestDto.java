@@ -3,9 +3,11 @@ package com.example.banksystemproject.dto.request;
 import com.example.banksystemproject.domain.entity.IssuerBranch;
 import com.example.banksystemproject.domain.enumType.BalanceType;
 
+import javax.persistence.Column;
+
 public class AccountRequestDto {
 
-
+    @Column
     private IssuerBranch issuerBranch;
 
     private BalanceType balanceType;

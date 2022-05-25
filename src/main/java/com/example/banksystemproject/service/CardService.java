@@ -9,7 +9,7 @@ import java.nio.file.attribute.UserPrincipalNotFoundException;
 public interface
 CardService {
 
-    CardResponseDto save(CardRequestDto cardRequestDto, Long accountId);
+    CardResponseDto save(CardRequestDto cardRequestDto, Long accountId) throws UserPrincipalNotFoundException;
 
     void activate(Long id);
 
