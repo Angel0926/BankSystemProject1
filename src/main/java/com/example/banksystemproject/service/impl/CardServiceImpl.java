@@ -39,7 +39,7 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public CardResponseDto save(CardRequestDto cardRequestDto, Long accountId) throws UserPrincipalNotFoundException {
-        Optional<Account> account =.findById(accountId).orElseThrow(() -> new UserPrincipalNotFoundException(String.format("Account with id %s is not found", accountId)));
+        Optional<Account> account = Optional.ofNullable(accountRepo.findById(accountId).orElseThrow(() -> new UserPrincipalNotFoundException(String.format("Account with id %s is not found", accountId))));
         Card card = new Card();
         card = modelMapper.map(cardRequestDto, Card.class);
         card.setCardNumber(numberGenerator.generate("905135020064", 16));
