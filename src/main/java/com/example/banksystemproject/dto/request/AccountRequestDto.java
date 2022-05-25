@@ -1,7 +1,6 @@
 package com.example.banksystemproject.dto.request;
 
 import com.example.banksystemproject.domain.entity.IssuerBranch;
-import com.example.banksystemproject.domain.enumType.BalanceType;
 
 import javax.persistence.Column;
 
@@ -10,14 +9,12 @@ public class AccountRequestDto {
     @Column
     private IssuerBranch issuerBranch;
 
-    private BalanceType balanceType;
 
     public AccountRequestDto() {
     }
 
-    public AccountRequestDto(IssuerBranch issuerBranch, BalanceType balanceType) {
+    public AccountRequestDto(IssuerBranch issuerBranch) {
         this.issuerBranch = issuerBranch;
-        this.balanceType = balanceType;
     }
 
     public IssuerBranch getIssuerBranch() {
@@ -28,11 +25,4 @@ public class AccountRequestDto {
         this.issuerBranch = issuerBranch;
     }
 
-    public BalanceType getBalanceType() {
-        return balanceType;
-    }
-
-    public void setBalanceType(BalanceType balanceType) {
-        this.balanceType = balanceType;
-    }
 }

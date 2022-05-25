@@ -44,7 +44,7 @@ public class Card {
     @Column(nullable = false)
     private CardStatus status=CardStatus.CREATED;
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     private Account account;
 
 

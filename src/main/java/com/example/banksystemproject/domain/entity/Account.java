@@ -1,12 +1,10 @@
 package com.example.banksystemproject.domain.entity;
 
-import com.example.banksystemproject.domain.enumType.BalanceType;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
-import java.util.Optional;
 import java.util.Set;
 
 @DynamicInsert
@@ -23,18 +21,15 @@ public class Account {
     @Column
     private Double balance = 0.00;
 
-    @Enumerated(value = EnumType.STRING)
-    private BalanceType balanceType = BalanceType.CREDIT;
-
     @Embedded
     private IssuerBranch issuerBranch;
+
     @JsonManagedReference
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "account")
     private Set<Card> cards;
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     private Client client;
 
 
@@ -46,31 +41,16 @@ public class Account {
                    String IBAN,
                    IssuerBranch issuerBranch,
                    Client client,
-                   Double balance,
-                   BalanceType balanceType,
-                   Set<Card> cards) {
+                   Double balance) {
         this.id = id;
         this.IBAN = IBAN;
         this.issuerBranch = issuerBranch;
         this.client = client;
         this.balance = balance;
-        this.balanceType = balanceType;
-        this.cards = cards;
+
     }
 
-    public Account(String IBAN,
-                   IssuerBranch issuerBranch,
-                   Client client,
-                   Double balance,
-                   BalanceType balanceType,
-                   Set<Card> cards) {
-        this.IBAN = IBAN;
-        this.issuerBranch = issuerBranch;
-        this.client = client;
-        this.balance = balance;
-        this.balanceType = balanceType;
-        this.cards = cards;
-    }
+
 
     public Long getId() {
         return id;
@@ -112,19 +92,5 @@ public class Account {
         this.balance = balance;
     }
 
-    public BalanceType getBalanceType() {
-        return balanceType;
-    }
 
-    public void setBalanceType(BalanceType balanceType) {
-        this.balanceType = balanceType;
-    }
-
-    public Set<Card> getCards() {
-        return cards;
-    }
-
-    public void setCards(Set<Card> cards) {
-        this.cards = cards;
-    }
 }

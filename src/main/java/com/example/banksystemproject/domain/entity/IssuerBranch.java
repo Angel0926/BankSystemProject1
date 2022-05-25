@@ -1,13 +1,12 @@
 package com.example.banksystemproject.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
 @Embeddable
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+
 public class IssuerBranch implements Serializable {
 
     @ColumnDefault("'12650'")

@@ -10,7 +10,6 @@ import com.example.banksystemproject.service.AccountService;
 import com.example.banksystemproject.util.IbanGenerator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,10 +35,11 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountResponseDto save(Long clientId) throws UserPrincipalNotFoundException {
+    public AccountResponseDto save(Long clientId, AccountRequestDto accountRequestDto) throws UserPrincipalNotFoundException {
         Optional<Client> client = Optional.ofNullable(clientRepo.findById(clientId).orElseThrow(() -> new UserPrincipalNotFoundException(String.format("Client with id %s is not found", clientId))));
         Account account = new Account();
         account.setIBAN(ibanGenerator.generate());
+        account.setIssuerBranch(accountRequestDto.getIssuerBranch());
         Client client1=modelMapper.map(client,Client.class);
         account.setClient(client1);
         accountRepo.save(account);
@@ -51,7 +51,6 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountResponseDto update(Long id, AccountRequestDto accountRequestDto) throws UserPrincipalNotFoundException {
         Account account = accountRepo.findById(id).orElseThrow(() -> new UserPrincipalNotFoundException(String.format("Account with id %s is not found", id)));
-        account.setBalanceType(accountRequestDto.getBalanceType());
         account.setIssuerBranch(accountRequestDto.getIssuerBranch());
         Account save = accountRepo.save(account);
         return modelMapper.map(save, AccountResponseDto.class);

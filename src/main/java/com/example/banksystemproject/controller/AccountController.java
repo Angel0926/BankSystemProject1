@@ -3,6 +3,7 @@ package com.example.banksystemproject.controller;
 import com.example.banksystemproject.ExceptionHandler.ApiRequestException;
 import com.example.banksystemproject.domain.entity.Client;
 import com.example.banksystemproject.dto.request.AccountRequestDto;
+import com.example.banksystemproject.dto.request.CardRequestDto;
 import com.example.banksystemproject.dto.responce.AccountResponseDto;
 import com.example.banksystemproject.repository.ClientRepo;
 import com.example.banksystemproject.service.AccountService;
@@ -29,11 +30,12 @@ public class AccountController {
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<AccountResponseDto> save(@PathVariable("id") Long clientId) {
+    public ResponseEntity<AccountResponseDto> save(@RequestBody AccountRequestDto accountRequestDto,
+                                                   @PathVariable("id") Long clientId) {
 
         AccountResponseDto accountResponseDto = null;
         try {
-            accountResponseDto = accountService.save(clientId);
+            accountResponseDto = accountService.save(clientId,accountRequestDto);
         } catch (UserPrincipalNotFoundException e) {
             String message = e.getName();
             throw new ApiRequestException(message);

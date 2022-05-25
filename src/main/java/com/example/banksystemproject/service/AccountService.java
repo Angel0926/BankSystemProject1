@@ -8,7 +8,8 @@ import java.nio.file.attribute.UserPrincipalNotFoundException;
 
 public interface AccountService {
 
-    AccountResponseDto save(Long clientId) throws UserPrincipalNotFoundException;
+
+    AccountResponseDto save(Long clientId, AccountRequestDto accountRequestDto) throws UserPrincipalNotFoundException;
 
     AccountResponseDto update(Long id, AccountRequestDto accountRequestDto) throws UserPrincipalNotFoundException;
 
