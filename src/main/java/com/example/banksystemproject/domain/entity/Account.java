@@ -1,14 +1,18 @@
 package com.example.banksystemproject.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @DynamicInsert
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","cards"})
 public class Account {
 
     @Id
@@ -25,7 +29,7 @@ public class Account {
     private IssuerBranch issuerBranch;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account",fetch = FetchType.LAZY)
     private Set<Card> cards;
 
     @JsonBackReference
@@ -49,7 +53,6 @@ public class Account {
         this.balance = balance;
 
     }
-
 
 
     public Long getId() {
@@ -92,5 +95,11 @@ public class Account {
         this.balance = balance;
     }
 
+    public Set<Card> getCards() {
+        return cards;
+    }
 
+    public void setCards(Set<Card> cards) {
+        this.cards = cards;
+    }
 }

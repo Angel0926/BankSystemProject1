@@ -3,6 +3,9 @@ package com.example.banksystemproject.dto.responce;
 import com.example.banksystemproject.domain.entity.Account;
 import com.example.banksystemproject.domain.enumType.CardStatus;
 import com.example.banksystemproject.domain.enumType.CardType;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 public class CardResponseDto {
     private Long id;

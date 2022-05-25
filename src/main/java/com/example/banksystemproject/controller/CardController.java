@@ -1,9 +1,7 @@
 package com.example.banksystemproject.controller;
 
-import com.example.banksystemproject.ExceptionHandler.ApiRequestException;
-import com.example.banksystemproject.dto.request.AccountRequestDto;
+import com.example.banksystemproject.exception.ApiRequestException;
 import com.example.banksystemproject.dto.request.CardRequestDto;
-import com.example.banksystemproject.dto.responce.AccountResponseDto;
 import com.example.banksystemproject.dto.responce.CardResponseDto;
 import com.example.banksystemproject.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +27,7 @@ public class CardController {
     @PostMapping("/{id}")
     public ResponseEntity<CardResponseDto> save(@RequestBody CardRequestDto cardRequestDto,
                                      @PathVariable("id") Long accountId) {
-        CardResponseDto cardResponseDto = null;
+        CardResponseDto cardResponseDto;
         try {
             cardResponseDto = cardService.save(cardRequestDto, accountId);
         } catch (UserPrincipalNotFoundException e) {
@@ -68,7 +66,7 @@ public class CardController {
             throw new ApiRequestException(message);}
     }
 
-    @PostMapping("/activate")
+    @PutMapping("/activate")
 
     public ResponseEntity<?> activateCard(@RequestParam Long cardId){
 
@@ -76,9 +74,9 @@ public class CardController {
             return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/blocked")
+    @PutMapping("/block")
 
-    public ResponseEntity<?> blockedCard(@RequestParam Long cardId){
+    public ResponseEntity<?> blockCard(@RequestParam Long cardId){
 
         cardService.block(cardId);
         return ResponseEntity.ok().build();

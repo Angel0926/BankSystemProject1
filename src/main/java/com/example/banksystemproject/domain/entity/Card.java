@@ -2,6 +2,7 @@ package com.example.banksystemproject.domain.entity;
 
 import com.example.banksystemproject.domain.enumType.CardStatus;
 import com.example.banksystemproject.domain.enumType.CardType;
+import com.example.banksystemproject.util.AttributeEncryptor;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
@@ -32,7 +33,8 @@ public class Card {
     @Column(nullable = false, length = 3)
     private String cvc;
 
-    @Column(nullable = false, length = 4)
+    @Column(nullable = false)
+    @Convert(converter = AttributeEncryptor.class)
     private String pin;
 
     @Enumerated(EnumType.STRING)

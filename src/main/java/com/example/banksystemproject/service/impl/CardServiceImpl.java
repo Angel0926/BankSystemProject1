@@ -1,6 +1,6 @@
 package com.example.banksystemproject.service.impl;
 
-import com.example.banksystemproject.ExceptionHandler.ApiRequestException;
+import com.example.banksystemproject.exception.ApiRequestException;
 import com.example.banksystemproject.domain.entity.Account;
 import com.example.banksystemproject.domain.entity.Card;
 
@@ -14,12 +14,14 @@ import com.example.banksystemproject.util.CreditCardNumberGenerator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.time.LocalDate;
 import java.util.Optional;
 
 @Service("card_service")
+@Transactional
 public class CardServiceImpl implements CardService {
 
     private final CardRepo cardRepo;
@@ -28,6 +30,7 @@ public class CardServiceImpl implements CardService {
     private final CreditCardNumberGenerator numberGenerator;
     private final AccountServiceImpl accountService;
 
+
     @Autowired
     public CardServiceImpl(CardRepo cardRepo, AccountRepo accountRepo, ModelMapper modelMapper, CreditCardNumberGenerator numberGenerator, AccountServiceImpl accountService) {
         this.cardRepo = cardRepo;
@@ -35,15 +38,15 @@ public class CardServiceImpl implements CardService {
         this.modelMapper = modelMapper;
         this.numberGenerator = numberGenerator;
         this.accountService = accountService;
+
     }
 
     @Override
     public CardResponseDto save(CardRequestDto cardRequestDto, Long accountId) throws UserPrincipalNotFoundException {
-        Optional<Account> account = Optional.ofNullable(accountRepo.findById(accountId).orElseThrow(() -> new UserPrincipalNotFoundException(String.format("Account with id %s is not found", accountId))));
-        Card card = new Card();
-        card = modelMapper.map(cardRequestDto, Card.class);
+        Optional<Account> account = accountRepo.findById(accountId);
+        Card card = modelMapper.map(cardRequestDto, Card.class);
         card.setCardNumber(numberGenerator.generate("905135020064", 16));
-        card.setAccount(accountService.getById(accountId));
+        card.setAccount(account.orElseThrow(() -> new UserPrincipalNotFoundException(String.format("Account with id %s is not found", accountId))));
         card.setExpirationDate(LocalDate.now().plusYears(5));
         Card save = cardRepo.save(card);
         CardResponseDto cardResponseDto = modelMapper.map(save, CardResponseDto.class);
@@ -54,8 +57,9 @@ public class CardServiceImpl implements CardService {
     public void activate(Long cardId) {
         try {
             Card card = cardRepo.findById(cardId).orElseThrow(() -> new UserPrincipalNotFoundException(String.format("Card with id %s is not found", cardId)));
-      if(card.getStatus().equals("CREATED")){
+      if(card.getStatus().equals(CardStatus.CREATED)){
           card.setStatus(CardStatus.ACTIVE);
+
       }
         } catch (UserPrincipalNotFoundException e) {
             String message = e.getName();

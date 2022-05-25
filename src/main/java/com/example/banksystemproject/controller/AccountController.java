@@ -1,11 +1,8 @@
 package com.example.banksystemproject.controller;
 
-import com.example.banksystemproject.ExceptionHandler.ApiRequestException;
-import com.example.banksystemproject.domain.entity.Client;
+import com.example.banksystemproject.exception.ApiRequestException;
 import com.example.banksystemproject.dto.request.AccountRequestDto;
-import com.example.banksystemproject.dto.request.CardRequestDto;
 import com.example.banksystemproject.dto.responce.AccountResponseDto;
-import com.example.banksystemproject.repository.ClientRepo;
 import com.example.banksystemproject.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

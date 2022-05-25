@@ -1,6 +1,6 @@
 package com.example.banksystemproject.controller;
 
-import com.example.banksystemproject.ExceptionHandler.ApiRequestException;
+import com.example.banksystemproject.exception.ApiRequestException;
 import com.example.banksystemproject.dto.request.ClientAddressRequestDto;
 import com.example.banksystemproject.dto.request.ClientRequestDto;
 import com.example.banksystemproject.dto.responce.ClientAddressResponseDto;
