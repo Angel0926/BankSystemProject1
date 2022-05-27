@@ -74,7 +74,7 @@ public ResponseEntity<?> transfer(@RequestParam double amount,
 
         try {
             accountService.delete(id);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok("Account with is deleted!");
 
         } catch (UserPrincipalNotFoundException e) {
             String message = e.getName();
