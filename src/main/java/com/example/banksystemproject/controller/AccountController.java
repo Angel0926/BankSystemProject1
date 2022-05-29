@@ -1,5 +1,6 @@
 package com.example.banksystemproject.controller;
 
+import com.example.banksystemproject.dto.responce.ClientAddressResponseDto;
 import com.example.banksystemproject.exception.ApiRequestException;
 import com.example.banksystemproject.dto.request.AccountRequestDto;
 import com.example.banksystemproject.dto.responce.AccountResponseDto;
@@ -82,6 +83,16 @@ public ResponseEntity<?> transfer(@RequestParam double amount,
         }
     }
 
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AccountResponseDto> findById(@PathVariable("id") Long id) {
+        try {
+            return ResponseEntity.ok(accountService.findById(id));
+        } catch (UserPrincipalNotFoundException e) {
+            String message = e.getName();
+            throw new ApiRequestException(message);
+        }
+    }
 
     }
 

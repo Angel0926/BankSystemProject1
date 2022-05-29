@@ -25,7 +25,7 @@ public class Client {
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
     @JsonManagedReference
-    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     private Set<Account> accounts;
 
     public Client(Long id, String firstName, String lastName, LocalDate dateOfBirth, Address address) {

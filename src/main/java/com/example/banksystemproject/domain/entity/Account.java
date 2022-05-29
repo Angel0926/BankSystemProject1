@@ -29,11 +29,11 @@ public class Account {
     private IssuerBranch issuerBranch;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "account",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "account",fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     private Set<Card> cards;
 
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Client client;
 
 

@@ -4,6 +4,7 @@ import com.example.banksystemproject.domain.entity.Account;
 import com.example.banksystemproject.domain.entity.Client;
 import com.example.banksystemproject.dto.request.AccountRequestDto;
 import com.example.banksystemproject.dto.responce.AccountResponseDto;
+import com.example.banksystemproject.dto.responce.ClientAddressResponseDto;
 import com.example.banksystemproject.repository.AccountRepo;
 import com.example.banksystemproject.repository.ClientRepo;
 import com.example.banksystemproject.service.AccountService;
@@ -79,7 +80,11 @@ public class AccountServiceImpl implements AccountService {
         accountRepo.transferTo(amount, toAccountId);
     }
 
-    public Account getById(Long accountId) {
-        return accountRepo.getById(accountId);
-    }
-}
+    @Override
+    public AccountResponseDto findById(Long id) throws UserPrincipalNotFoundException {
+
+       Account account = accountRepo.findById(id).orElseThrow(() ->
+                new UserPrincipalNotFoundException(String.format("Account with id %s is not found", id)));
+        AccountResponseDto accountResponseDto=modelMapper.map(account,AccountResponseDto.class);
+        return accountResponseDto;
+    }}

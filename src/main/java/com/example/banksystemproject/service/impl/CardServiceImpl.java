@@ -1,5 +1,6 @@
 package com.example.banksystemproject.service.impl;
 
+import com.example.banksystemproject.dto.responce.AccountResponseDto;
 import com.example.banksystemproject.exception.ApiRequestException;
 import com.example.banksystemproject.domain.entity.Account;
 import com.example.banksystemproject.domain.entity.Card;
@@ -93,8 +94,9 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public CardResponseDto findById(Long id) throws UserPrincipalNotFoundException {
+
         Card card = cardRepo.findById(id).orElseThrow(() ->
-                new UserPrincipalNotFoundException(String.format("Card with id %s is not found", id)));
+                new UserPrincipalNotFoundException(String.format("Account with id %s is not found", id)));
         CardResponseDto cardResponseDto=modelMapper.map(card,CardResponseDto.class);
         return cardResponseDto;
 
